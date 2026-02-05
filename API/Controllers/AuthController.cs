@@ -24,5 +24,8 @@ namespace API.Controllers
 				Token = tokenService.CreateToken(user)
 			};
 		}
+
+
+		
 	}
 }
