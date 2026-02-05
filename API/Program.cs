@@ -34,7 +34,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	});
 
 builder.Services.AddScoped<ITokenService, TokenService>();
-
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+	serverOptions.ListenAnyIP(5000);
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,8 +47,8 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+//app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
