@@ -8,7 +8,7 @@ namespace API.Services
 {
 	public class TokenService(IConfiguration config):ITokenService
 	{
-		public string CreateToken(AppUser user)
+		public string CreateToken(User user)
 		{
 			var tokenkey = config["TokenKey"] ?? throw new Exception("cannot get token key");
 			if (tokenkey.Length < 64)

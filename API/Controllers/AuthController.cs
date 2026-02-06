@@ -11,7 +11,7 @@ namespace API.Controllers
 		[HttpPost("login")]
 		public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
 		{
-			var user = new AppUser
+			var user = new User
 			{
 				UserName = "testuser",
 				Email = loginDto.email
