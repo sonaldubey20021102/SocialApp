@@ -11,7 +11,7 @@ namespace API.Controllers
         public IActionResult Index()
         {
             return View();
-        }
+        } 
 
         public async Task<IActionResult> CheckUsername(string s_username, CancellationToken cancellation)
         {
