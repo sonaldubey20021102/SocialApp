@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using API.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
@@ -6,7 +7,8 @@ namespace API.Data
     {
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
-
+            
         }
-    }
+		public DbSet<User> users { get; set; }
+	}
 }

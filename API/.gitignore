@@ -61,3 +61,5 @@ nunit-*.xml
 
 # Visual Studio cache/options folder
 .vs/
+
+appsettings*.json
