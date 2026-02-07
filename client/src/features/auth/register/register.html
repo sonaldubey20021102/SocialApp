@@ -1,17 +1,47 @@
-<form>
-  <div>
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required />
+<div
+  class="min-h-screen flex items-center justify-center bg-gray-100 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
+>
+  <div class="w-full max-w-md rounded-2xl bg-slate-800/60 backdrop-blur-xl shadow-2xl px-8 py-10">
+    <h2 class="text-3xl font-semibold text-center text-white">Create User</h2>
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+      <div>
+        <label for="username" class="lable-design">Username:</label>
+        <input
+          type="text"
+          name="username"
+          [(ngModel)]="registercreds.username"
+          required
+          class="w-full rounded-lg bg-slate-900 border border-slate-700 px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+      </div>
+      <div>
+        <label for="email" class="lable-design">Email:</label>
+        <input
+          type="email"
+          name="email"
+          [(ngModel)]="registercreds.email"
+          required
+          class="w-full rounded-lg bg-slate-900 border border-slate-700 px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+      </div>
+      <div>
+        <label for="password" class="lable-design">Password:</label>
+        <input
+          type="password"
+          name="password"
+          [(ngModel)]="registercreds.password"
+          required
+          class="w-full rounded-lg bg-slate-900 border border-slate-700 px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+      </div>
+      <div>
+        <button
+          type="submit"
+          class="mt-4 w-full rounded-lg bg-indigo-500 py-3 text-sm font-semibold text-white transition hover:bg-indigo-600 disabled:opacity-50"
+        >
+          Register
+        </button>
+      </div>
+    </form>
   </div>
-  <div>
-    <label for="email">Email:</label>
-    <input type="text" id="email" name="email" required />
-  </div>
-  <div>
-    <label for="password">Password:</label>
-    <input type="text" id="password" name="password" required />
-  </div>
-  <div>
-    <button type="submit">Register</button>
-  </div>
-</form>
+</div>
