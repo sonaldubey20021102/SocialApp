@@ -1,33 +1,30 @@
-
 services:
+    api:
+        build:
+            context: ./API
+        ports:
+            - "5000:5000"
+        depends_on:
+            - redis
+        environment:
+            - Redis__Connection=redis:6379
+            - ASPNETCORE_ENVIRONMENT=Development
 
-  api:
-    build:
-      context: ./API
-    ports:
-      - "5000:8080"
-    depends_on:
-      - redis
-    environment:
-      - Redis__Connection=redis:6379
-      - ASPNETCORE_ENVIRONMENT=Development
-
-  redis:
-    image: redis:7-alpine
-    container_name: redis_container
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-  client:
-    build:
-        context: ./client
-        dockerfile: Dockerfile
-    ports:
-        - "4200:80"
-    depends_on:
-        - api
+    redis:
+        image: redis:7-alpine
+        container_name: redis_container
+        ports:
+            - "6379:6379"
+        volumes:
+            - redis_data:/data
+    client:
+        build:
+            context: ./client
+            dockerfile: Dockerfile
+        ports:
+            - "4200:80"
+        depends_on:
+            - api
 
 volumes:
-  redis_data:
-
+    redis_data:
