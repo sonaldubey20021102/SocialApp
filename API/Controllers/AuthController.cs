@@ -1,22 +1,34 @@
-﻿using API.DTOs;
+﻿using API.Data;
+using API.DTOs;
 using API.Entities;
 using API.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace API.Controllers
 {
 
-	public class AuthController(ITokenService tokenService) : BaseApiController
+	public class AuthController(AppDBContext appDBContext,ITokenService tokenService) : BaseApiController
 	{
 		[HttpPost("register")]
-		public async Task<ActionResult<RegisterDto>> Register(RegisterDto registerDto)
+		public async Task<ActionResult<User>> Register(RegisterDto registerDto)
 		{
-			return new RegisterDto
+			if (await appDBContext.users.AnyAsync(x => x.Email == registerDto.Email)) return BadRequest("Already exists");
+			var hmac = new HMACSHA512();
+
+			var user =  new User
 			{
 				Email = registerDto.Email,
 				UserName = registerDto.UserName,
-				Password = registerDto.Password
+				PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
+				PasswordSalt = hmac.Key
 			};
+
+			appDBContext.users.Add(user);
+			await appDBContext.SaveChangesAsync();
+			return user;
 		}
 
 		[HttpPost("login")]
