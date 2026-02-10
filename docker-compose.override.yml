@@ -1,0 +1,12 @@
+services:
+
+  api:
+    build:
+      context: ./API
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./API:/app
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5000:8080"
