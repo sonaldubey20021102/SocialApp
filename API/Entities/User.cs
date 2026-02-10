@@ -15,5 +15,7 @@ namespace API.Entities
 		public byte[] PasswordHash { get; set; } = Array.Empty<byte>();
 		[Required]
 		public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
+
+		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 	}
 }
