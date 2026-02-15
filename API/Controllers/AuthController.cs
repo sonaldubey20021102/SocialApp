@@ -10,7 +10,7 @@ using System.Text;
 namespace API.Controllers
 {
 
-	public class AuthController(AppDBContext context,ITokenService tokenService) : BaseApiController
+	public class AuthController(AppDBContext context ,ITokenService tokenService) : BaseApiController
 	{
 		[HttpPost("regsiter")]
 		public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
