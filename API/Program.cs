@@ -1,6 +1,9 @@
+using API.Consumers;
 using API.Data;
+using API.Hubs;
 using API.Interface;
 using API.Services;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -56,8 +59,29 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 {
 	serverOptions.ListenAnyIP(5000);
 });
-var app = builder.Build();
 
+builder.Services.AddSignalR();
+
+builder.Services.AddMassTransit(x =>
+{
+	// Register Consumers
+	x.AddConsumer<UserCreatedConsumer>();
+
+	x.UsingRabbitMq((context, cfg) =>
+	{
+		cfg.Host("localhost", "/", h =>
+		{
+			h.Username("guest");
+			h.Password("guest");
+		});
+
+		// Auto configure endpoints based on consumer names
+		cfg.ConfigureEndpoints(context);
+	});
+});
+
+var app = builder.Build();
+	
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -65,6 +89,7 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
+app.MapHub<ChatHub>("/chatHub"); 
 //app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
