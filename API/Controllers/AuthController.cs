@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
 
-	public class AuthController(ITokenService tokenService) : BaseApiController
+	public class AuthController(AppDBContext context ,ITokenService tokenService) : BaseApiController
+
 	{
 		[HttpPost("regsiter")]
 		public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
