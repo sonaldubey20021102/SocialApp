@@ -13,12 +13,16 @@ import {
   SidebarGroupContentComponent,
   SidebarGroupLabelComponent
 } from '../../ui/sidebar/sidebar.component';
+import { Router } from '@angular/router';
+
+
 
 interface MenuItem {
   id: ViewType;
   label: string;
   icon: string;
   description: string;
+  route:string;
 }
 
 @Component({
@@ -61,7 +65,7 @@ interface MenuItem {
               <app-sidebar-menu-item>
                 <app-sidebar-menu-button
                   [isActive]="currentView === item.id"
-                  (click)="viewChange.emit(item.id)"
+                  [route]="item.route"
                   class="w-full justify-start">
                   <ng-container [ngSwitch]="item.icon">
                     <svg *ngSwitchCase="'home'" class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,7 +97,7 @@ interface MenuItem {
               <app-sidebar-menu-item>
                 <app-sidebar-menu-button
                   [isActive]="currentView === item.id"
-                  (click)="viewChange.emit(item.id)"
+                   [route]="item.route"
                   class="w-full justify-start">
                   <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
@@ -137,6 +141,9 @@ interface MenuItem {
   `
 })
 export class NavigationComponent {
+
+  constructor(private router: Router) {}
+
   private authService = inject(AuthService);
   
   @Input() currentView: ViewType = 'community';
@@ -148,25 +155,30 @@ export class NavigationComponent {
       id: 'community',
       label: 'Community Feed',
       icon: 'home',
-      description: 'Latest updates and posts'
+      description: 'Latest updates and posts',
+      route:'/feed'
     },
     {
       id: 'chat',
       label: 'Messages',
       icon: 'chat',
-      description: 'Chat with community members'
+      description: 'Chat with community members',
+      route:'/chat'
+
     },
     {
       id: 'marketplace',
       label: 'Marketplace',
       icon: 'marketplace',
-      description: 'Browse local services'
+      description: 'Browse local services',
+      route:'/market'
     },
     {
       id: 'business',
       label: 'My Businesses',
       icon: 'store',
-      description: 'Manage your services'
+      description: 'Manage your services',
+      route:'/business'
     }
   ];
 
@@ -175,7 +187,8 @@ export class NavigationComponent {
       id: 'profile',
       label: 'Profile',
       icon: 'user',
-      description: 'Edit your profile'
+      description: 'Edit your profile',
+      route:'/profile'
     }
   ];
 
@@ -185,5 +198,6 @@ export class NavigationComponent {
 
   onLogout(): void {
     this.authService.logout();
+    this.router.navigate(['/'])
   }
 }

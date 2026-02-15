@@ -9,6 +9,7 @@ import { UserProfileComponent } from '../user-profile/user-profile.component';
 import { MarketplaceComponent } from '../marketplace/marketplace.component';
 import { CommunityFeedComponent } from '../community-feed/community-feed.component';
 import { MyBusinessesComponent } from '../my-businesses/my-businesses.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-main-dashboard',
@@ -23,7 +24,8 @@ import { MyBusinessesComponent } from '../my-businesses/my-businesses.component'
     UserProfileComponent,
     MarketplaceComponent,
     CommunityFeedComponent,
-    MyBusinessesComponent
+    MyBusinessesComponent,
+    RouterOutlet
   ],
   template: `
     <app-sidebar-provider>
@@ -39,26 +41,10 @@ import { MyBusinessesComponent } from '../my-businesses/my-businesses.component'
             }
           </app-sidebar-content>
         </app-sidebar>
-        
-        <main class="flex-1 min-h-0 overflow-hidden">
-          @switch (currentView()) {
-            @case ('chat') {
-              <app-chat-interface></app-chat-interface>
-            }
-            @case ('profile') {
-              <app-user-profile></app-user-profile>
-            }
-            @case ('marketplace') {
-              <app-marketplace></app-marketplace>
-            }
-            @case ('business') {
-              <app-my-businesses></app-my-businesses>
-            }
-            @default {
-              <app-community-feed></app-community-feed>
-            }
-          }
+        <main  class="flex-1 min-h-0 overflow-hidden">
+           <router-outlet></router-outlet>
         </main>
+     
       </div>
     </app-sidebar-provider>
   `

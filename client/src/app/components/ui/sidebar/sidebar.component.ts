@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar-provider',
@@ -148,22 +149,26 @@ export class SidebarMenuItemComponent {}
 @Component({
   selector: 'app-sidebar-menu-button',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   template: `
-    <button
-      type="button"
+    <a
       [class]="buttonClasses"
       [attr.data-active]="isActive"
-      (click)="onClick.emit()"
+      [routerLink]="route"
+      routerLinkActive="bg-primary text-white"
     >
       <ng-content></ng-content>
-    </button>
+    </a>
+
+
   `
 })
 export class SidebarMenuButtonComponent {
   @Input() isActive = false;
   @Input() class = '';
+  @Input() route: string | any[] | null = null;
   @Output() onClick = new EventEmitter<void>();
+
 
   get buttonClasses(): string {
     const base = 'peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50';

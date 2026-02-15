@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
@@ -202,9 +203,11 @@ import {
 })
 export class AuthFormComponent {
   private authService = inject(AuthService);
+  private router = inject(Router);
   
   activeTab = signal('login');
   isLoading = signal(false);
+  
   
   loginData = {
     email: '',
@@ -218,13 +221,20 @@ export class AuthFormComponent {
     confirmPassword: ''
   };
 
-  async handleLogin(): Promise<void> {
+  handleLogin(): void {
     this.isLoading.set(true);
-    try {
-      await this.authService.login(this.loginData.email, this.loginData.password);
-    } finally {
-      this.isLoading.set(false);
-    }
+    
+    this.authService.login(this.loginData).subscribe({
+      next: (user) => {
+        console.log('Login successful:', user);
+        this.router.navigate(['/feed']);
+      },
+      error: err => {
+        console.log('Login error:', err)
+        this.isLoading.set(false);
+      }
+    });
+    
   }
 
   async handleRegister(): Promise<void> {
@@ -245,3 +255,4 @@ export class AuthFormComponent {
     }
   }
 }
+

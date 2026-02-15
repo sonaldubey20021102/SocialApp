@@ -3,11 +3,12 @@ import { CommonModule } from "@angular/common";
 import { AuthService } from "./services/auth.service";
 import { AuthFormComponent } from "./components/features/auth-form/auth-form.component";
 import { MainDashboardComponent } from "./components/features/main-dashboard/main-dashboard.component";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
     selector: "app-root",
     standalone: true,
-    imports: [CommonModule, AuthFormComponent, MainDashboardComponent],
+    imports: [CommonModule, AuthFormComponent, MainDashboardComponent,RouterOutlet],
     template: `
         <!-- Loading State -->
         @if (authService.isLoading()) {
@@ -22,9 +23,10 @@ import { MainDashboardComponent } from "./components/features/main-dashboard/mai
         } @else {
             <!-- Main Dashboard -->
             <div class="h-screen-safe w-full">
-                <app-main-dashboard></app-main-dashboard>
+                <router-outlet></router-outlet>
             </div>
         }
+        
     `,
     styles: [
         `
