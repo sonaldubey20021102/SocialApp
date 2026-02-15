@@ -15,6 +15,8 @@ namespace API.Controllers
 		[HttpPost("regsiter")]
 		public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
 		{
+
+
 			if (await context.Users.AnyAsync(x => x.Email == registerDto.Email)) return BadRequest("Email already exists");
 			var hmac = new HMACSHA512();
 			var user = new User
